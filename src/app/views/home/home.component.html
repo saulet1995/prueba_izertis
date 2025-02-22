@@ -1,1 +1,104 @@
-<p>home works!</p>
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg navbar-light bg-secondary py-3">
+    <div class="container-fluid">
+        <!-- Títul o logo -->
+        <a class="navbar-brand" href="/">Prueba Izertis</a>
+
+        <!-- Barra de búsqueda -->
+        <form class="d-flex ms-auto" role="search">
+
+            <input (keydown.enter)="searchMovie()" [(ngModel)]="search" class="form-control me-2" type="text"
+                name="buscador" placeholder="Buscar..." aria-label="Buscar">
+
+            <button (click)="searchMovie()" class="btn btn-primary" type="button">Buscar</button>
+
+        </form>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 style="text-align: center;">Listado de Películas</h2><br><br>
+    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4">
+
+        <!-- For para recorrer las películas -->
+        @for (movie of movies; track movie.title;) {
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-truncate">
+                    <h5 data-bs-toggle="modal" data-bs-target="#detailModal" style="cursor: pointer; max-width:100%;"
+                        class="list-group-item" (click)="openDetails($index)"
+                        class=" d-inline-block card-title text-truncate">
+                        {{movie.title}}</h5>
+                </div>
+            </div>
+        </div>
+        <!-- Si no hay ninguna, se muestra un mensaje indicándolo -->
+        } @empty {
+        <p>No hay películas que mostrar</p>
+        }
+
+    </div>
+</div>
+
+<!-- Ventana modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="detailModalLabel">Detalles de la película</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- La ventana modal solamente se rellenará con datos si existen estos datos, para evitar errores internos -->
+                @if (movies.length > 0) {
+
+                <p><strong>Título: </strong> <span id="modalTitle">{{movies[pelicula_actual].title}}</span><i
+                        class="bi bi-star-fill"></i></p>
+
+                <p><strong>Fecha: </strong> <span id="modalDate">{{movies[pelicula_actual].release_date |
+                        date:'dd/MM/yyyy'}}</span></p>
+
+                <p><strong>Idioma: </strong> <span id="modalLanguage">{{movies[pelicula_actual].original_language |
+                        uppercase}}</span>
+                </p>
+
+                <p><strong>Puntuación: </strong> <span id="modalAverage">{{movies[pelicula_actual].vote_average |
+                        number:'1.0-1'}}</span>
+                </p>
+
+                <p><strong>Votos: </strong> <span id="modalVotes">{{movies[pelicula_actual].vote_count}}</span></p>
+
+                <p style="text-align: justify;"><strong>Descripción: </strong> <span
+                        id="modalDescription">{{movies[pelicula_actual].overview}}</span></p>
+
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div><br>
+
+<!-- Solo mostraremos los botones de paginación si hay más de una página de resultados -->
+@if (total_pages > 1) {
+
+<!-- Barra de navegación con el buscador -->
+<div class="d-flex justify-content-center align-items-center my-4">
+
+    <!-- Botón "Anterior" -->
+    <button class="btn btn-primary" (click)="previousPage()"> Anterior </button>
+
+    <!-- Texto de "Página X de Y" -->
+    <span class="mx-3"> Página {{page}} de {{ total_pages }} </span>
+
+    <!-- Botón "Siguiente" -->
+    <button class="btn btn-primary" (click)="nextPage()"> Siguiente </button>
+
+</div><br><br>
+
+}

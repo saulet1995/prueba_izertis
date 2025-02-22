@@ -6,7 +6,7 @@ import { Movies, Response } from '../models/response.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class RequestsService {
+export class RequestService {
 
   private URL = "https://api.themoviedb.org/3/search/movie?query=";
   private language = "es-ES";
