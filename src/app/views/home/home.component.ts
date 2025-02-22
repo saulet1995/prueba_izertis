@@ -3,12 +3,13 @@ import { RequestService } from '../../services/request.service';
 import { CommonModule } from '@angular/common';
 import { Movies } from '../../models/response.interface';
 import { FormsModule } from '@angular/forms';
+import { IconScoreComponent } from '../../components/icon-score/icon-score.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IconScoreComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
